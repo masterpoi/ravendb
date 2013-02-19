@@ -226,6 +226,8 @@ namespace Raven.Database.Indexing
 
 		private bool ShouldStoreCommitPoint()
 		{
+			if (directory is RAMDirectory) // no point in trying to store commits for ram index
+				return false;
 					// no often than specified indexing interval
 			return (LastIndexTime - PreviousIndexTime > context.Configuration.MinIndexingTimeIntervalToStoreCommitPoint ||
 					// at least once for specified time interval
